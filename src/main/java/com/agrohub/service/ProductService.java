@@ -2,6 +2,7 @@ package com.agrohub.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 import com.agrohub.entity.Product;
 import com.agrohub.repository.ProductRepository;
@@ -14,6 +15,10 @@ public class ProductService {
     
     public Product saveProduct(Product product) {
         return repository.save(product);
+    }
+    
+    public List<Product> getAllProducts() {
+        return repository.findAll();
     }
 
 }
