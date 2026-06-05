@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.agrohub.entity.Product;
+import com.agrohub.exception.ProductNotFoundException;
 import com.agrohub.repository.ProductRepository;
 
 @Service
@@ -25,8 +26,15 @@ public class ProductService {
     }
     
     
-    public Optional<Product> getProductById(Long id) {
-        return repository.findById(id);
+    public Product getProductById(Long id) {
+
+        Optional<Product> product = repository.findById(id);
+
+        if(product.isPresent()) {
+            return product.get();
+        }
+
+        throw new ProductNotFoundException("Product Not Found");
     }
 
     

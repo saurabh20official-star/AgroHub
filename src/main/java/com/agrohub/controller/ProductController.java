@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.agrohub.service.ProductService;
 
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.agrohub.entity.Product;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class ProductController {
@@ -30,7 +31,7 @@ public class ProductController {
     
     
     @PostMapping("/products")
-    public Product saveProduct(@RequestBody Product product) {
+    public Product saveProduct(@Valid @RequestBody Product product) {
 
         return productService.saveProduct(product);
     }
@@ -45,13 +46,7 @@ public class ProductController {
     @GetMapping("/products/{id}")
     public Product getProductById(@PathVariable Long id) {
 
-        Optional<Product> product = productService.getProductById(id);
-
-        if(product.isPresent()) {
-            return product.get();
-        }
-
-        return null;
+        return productService.getProductById(id);
     }
     
     
