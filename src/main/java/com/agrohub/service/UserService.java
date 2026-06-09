@@ -1,5 +1,7 @@
 package com.agrohub.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,4 +26,29 @@ public class UserService {
 
         return userRepository.save(user);
     }
+    
+    public String loginUser(User user) {
+
+        Optional<User> existingUser =
+                userRepository.findByUsername(user.getUsername());
+
+        if(existingUser.isPresent()) {
+
+            User dbUser = existingUser.get();
+
+            boolean passwordMatch =
+                    passwordEncoder.matches(
+                            user.getPassword(),
+                            dbUser.getPassword()
+                    );
+
+            if(passwordMatch) {
+                return "Login Successful";
+            }
+        }
+
+        return "Invalid Username or Password";
+    }
+    
+    
 }
