@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.agrohub.entity.User;
 import com.agrohub.repository.UserRepository;
 
+import com.agrohub.jwt.JwtUtil;
+
 @Service
 public class UserService {
 
@@ -43,7 +45,9 @@ public class UserService {
                     );
 
             if(passwordMatch) {
-                return "Login Successful";
+            	return JwtUtil.generateToken(
+            	        dbUser.getUsername()
+            	);
             }
         }
 
