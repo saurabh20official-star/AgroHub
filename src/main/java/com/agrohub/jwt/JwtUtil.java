@@ -9,19 +9,24 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class JwtUtil {
 
-    private static final SecretKey SECRET_KEY =
-            Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    public static String generateToken(String username) {
+    public static String generateToken(String username, String role) {
+
+        Map<String, Object> claims = new HashMap<>();
+
+        claims.put("role", role);
 
         return Jwts.builder()
+                .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date())
-                .setExpiration(
-                        new Date(System.currentTimeMillis() + 1000 * 60 * 60)
-                )
+                .setExpiration(new Date(System.currentTimeMillis()+ 1000 * 60 * 60))
                 .signWith(SECRET_KEY)
                 .compact();
     }

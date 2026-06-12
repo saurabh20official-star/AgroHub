@@ -46,7 +46,8 @@ public class UserService {
 
             if(passwordMatch) {
             	return JwtUtil.generateToken(
-            	        dbUser.getUsername()
+            	        dbUser.getUsername(),
+            	        dbUser.getRole()
             	);
             }
         }
